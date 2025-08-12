@@ -1,39 +1,38 @@
-# -<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="th">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>แมวส้มขนสั่น</title>
+<title>แมวส้มขนสั่น (เวอร์ชันปุ่ม)</title>
 <style>
   body {
     background-color: #fff5e6;
     text-align: center;
     font-family: 'Comic Sans MS', cursive, sans-serif;
-    overflow-x: hidden;
+    margin-top: 60px;
   }
   h1 {
     color: #ff6600;
   }
-  .cat {
-    width: 200px;
+  button {
+    font-size: 2em;
+    background-color: #ff9966;
+    border: none;
+    border-radius: 15px;
+    padding: 20px 40px;
     cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     transition: transform 0.2s ease;
     position: relative;
+    user-select: none;
   }
-  .bounce {
-    animation: bounce 0.4s ease;
-  }
-  @keyframes bounce {
-    0%   { transform: scale(1); }
-    30%  { transform: scale(1.1); }
-    50%  { transform: scale(0.95); }
-    70%  { transform: scale(1.05); }
-    100% { transform: scale(1); }
+  button:active {
+    transform: scale(0.9);
   }
   .message {
     font-size: 1.5em;
     color: #ff6600;
-    margin-top: 20px;
+    margin-top: 30px;
     height: 2em;
   }
   .counter {
@@ -56,9 +55,7 @@
 <body>
 
 <h1>🐾 แมวส้มขนสั่น 🐾</h1>
-<div style="position: relative; display: inline-block;">
-  <img src="https://i.imgur.com/ydNO6lC.png" alt="แมวส้ม" class="cat" id="cat">
-</div>
+<button id="loveBtn">กดที่นี่</button>
 <div class="message" id="message"></div>
 <div class="counter" id="counter">กดแล้ว: 0 ครั้ง</div>
 
@@ -73,12 +70,12 @@
   ];
 
   let clickCount = 0;
-  const cat = document.getElementById("cat");
+  const loveBtn = document.getElementById("loveBtn");
   const message = document.getElementById("message");
   const counter = document.getElementById("counter");
   const meowSound = document.getElementById("meow-sound");
 
-  cat.addEventListener("click", (event) => {
+  loveBtn.addEventListener("click", (event) => {
     clickCount++;
     const randomMessage = messages[Math.floor(Math.random() * messages.length)];
     message.textContent = randomMessage;
@@ -88,18 +85,13 @@
     meowSound.currentTime = 0;
     meowSound.play();
 
-    // อนิเมชันเด้ง
-    cat.classList.remove("bounce");
-    void cat.offsetWidth;
-    cat.classList.add("bounce");
-
-    // หัวใจลอย
+    // สร้างหัวใจลอย
     const heart = document.createElement("div");
     heart.textContent = "❤️";
     heart.className = "heart";
-    heart.style.left = (event.offsetX - 10) + "px";
-    heart.style.top = (event.offsetY - 20) + "px";
-    cat.parentElement.appendChild(heart);
+    heart.style.left = (event.clientX - loveBtn.offsetLeft - 15) + "px";
+    heart.style.top = (event.clientY - loveBtn.offsetTop - 40) + "px";
+    loveBtn.appendChild(heart);
 
     setTimeout(() => {
       heart.remove();
